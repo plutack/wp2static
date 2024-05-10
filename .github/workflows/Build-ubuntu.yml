@@ -33,7 +33,9 @@ jobs:
         run: ./composer build wp2static
         
       - name: List files after build
-        run: ls $HOME/Downloads
+        run: |
+          ls $HOME/Downloads
+          pwd
 
       
       - name: Create Release
