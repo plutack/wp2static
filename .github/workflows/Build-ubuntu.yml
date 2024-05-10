@@ -51,6 +51,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./wp2static.zip  # Specify the path to the wp2static.zip file
+          asset_path: ./  # Specify the path to the wp2static.zip file
           asset_name: wp2static.zip
           asset_content_type: application/zip
