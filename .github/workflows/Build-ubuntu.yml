@@ -36,6 +36,7 @@ jobs:
         run: |
           ls $HOME/Downloads
           pwd
+          echo $HOME
 
       
       - name: Create Release
