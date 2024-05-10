@@ -47,6 +47,12 @@ jobs:
           body: Release notes for v7.2  # Specify release notes here
           draft: false
           prerelease: false
+
+      - name: Debug Output
+        run: |
+          ls -l $HOME/Downloads
+          pwd
+
       
       - name: Upload Release Asset
         id: upload-release-asset
