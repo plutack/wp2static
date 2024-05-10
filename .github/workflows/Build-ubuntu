@@ -1,0 +1,56 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        
+      - name: Install Composer
+        run: |
+          php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+          php composer-setup.php --install-dir='.' --filename=composer
+          rm composer-setup.php
+          chmod +x composer
+
+      - name: Install PHP and other dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y php
+          sudo apt-get install -y zip
+      
+      - name: Install PHP Dependencies
+        run: ./composer install --no-interaction --prefer-dist --optimize-autoloader
+      
+      - name: Build WP2Static
+        run: ./composer build wp2static.zip
+      
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v1.0.0  # Specify your release tag name here
+          release_name: Release v1.0.0  # Specify your release name here
+          body: Release notes for v1.0.0  # Specify release notes here
+          draft: false
+          prerelease: false
+      
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./wp2static.zip  # Specify the path to the wp2static.zip file
+          asset_name: wp2static.zip
+          asset_content_type: application/zip
