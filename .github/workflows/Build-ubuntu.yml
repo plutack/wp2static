@@ -56,5 +56,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: $HOME/Downloads # Specify the path to the wp2static.zip file
-          asset_name: wp2static
+          asset_name: wp2static.zip
           asset_content_type: application/zip
