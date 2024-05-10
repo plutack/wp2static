@@ -33,7 +33,7 @@ jobs:
         run: ./composer build wp2static
         
       - name: List files after build
-        run: ls /home/Downloads/
+        run: ls $HOME/Downloads
 
       
       - name: Create Release
@@ -56,6 +56,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: /home/Downloads/wp2static.zip # Specify the path to the wp2static.zi
+          asset_path: $HOME/Downloads/wp2static.zip # Specify the path to the wp2static.zi
           asset_name: wp2static.zip
           asset_content_type: application/zip
