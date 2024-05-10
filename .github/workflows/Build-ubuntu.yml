@@ -30,7 +30,11 @@ jobs:
         run: ./composer install --no-interaction --prefer-dist --optimize-autoloader
       
       - name: Build WP2Static
-        run: ./composer build wp2static.zip
+        run: ./composer build wp2static
+        
+      - name: List files after build
+        run: ls $HOME/Downloads
+
       
       - name: Create Release
         id: create_release
@@ -38,9 +42,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v1.0.0  # Specify your release tag name here
-          release_name: Release v1.0.0  # Specify your release name here
-          body: Release notes for v1.0.0  # Specify release notes here
+          tag_name: v7.2 # Specify your release tag name here
+          release_name: Release v7.2  # Specify your release name here
+          body: Release notes for v7.2  # Specify release notes here
           draft: false
           prerelease: false
       
@@ -51,6 +55,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./  # Specify the path to the wp2static.zip file
-          asset_name: wp2static.zip
+          asset_path: $HOME/Downloads # Specify the path to the wp2static.zip file
+          asset_name: wp2static
           asset_content_type: application/zip
